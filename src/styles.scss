@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+html, body, app-root {
+  height: 100%;
+  margin: 0;
+  background-color: #121212 !important;
+  color:            #e0e0e0 !important;
+}
+
+.custom-dialog-container {
+  .mat-dialog-container {
+    background: transparent;
+    box-shadow: none;
+    overflow: hidden;
+  }
+}
+
+.map-dialog-container {
+  .mat-dialog-container {
+    padding: 0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+}

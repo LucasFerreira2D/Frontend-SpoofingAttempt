@@ -1,0 +1,13 @@
+<div class="map-container">
+  <button mat-icon-button class="close-btn" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <iframe
+    width="1000"
+    height="1000"
+    loading="lazy"
+    allowfullscreen
+    [src]="mapUrl">
+  </iframe>
+</div>

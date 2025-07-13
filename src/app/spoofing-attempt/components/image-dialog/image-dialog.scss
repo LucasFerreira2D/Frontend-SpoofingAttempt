@@ -1,0 +1,25 @@
+.dialog-container {
+  position: relative;
+  text-align: center;
+  padding: 0;
+
+  .expanded-image {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 12px;
+    border: 2px solid #e700ff; // cor primária, ajuste conforme necessário
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+  }
+}
+

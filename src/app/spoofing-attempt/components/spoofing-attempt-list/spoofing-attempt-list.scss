@@ -1,0 +1,87 @@
+/* Container geral */
+.dark-container {
+  background-color: #121212;
+  min-height: 100vh;
+  padding: 24px;
+  color: #e0e0e0;
+}
+
+/* Card de filtro */
+.filter-card {
+  background-color: #1e1e1e;
+  margin-bottom: 24px;
+
+  .mat-card-content {
+    background-color: transparent;
+  }
+}
+
+/* Toolbar de filtros */
+.filter-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.period-item {
+  flex: 0 0 280px;
+}
+
+.search-item {
+  flex: 1 1 auto;
+  min-width: 200px;
+}
+
+/* Botões de ação à direita */
+.filter-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 20px;
+}
+
+/* Ícone de mapa */
+.map-icon {
+  color: #fff;
+}
+
+/* Miniatura de spoofing */
+.spoofing-img {
+  width: 70px;
+  height: 70px;
+  padding-top: 5px;
+  border-radius: 10px;
+}
+
+/* Paginator escuro */
+.dark-paginator {
+  background-color: #1e1e1e;
+}
+
+/* força o table a respeitar larguras fixas */
+.data-table {
+  table-layout: fixed;
+  width: 100%;
+  background-color: #1e1e1e !important;
+}
+
+/* define 400px só pra coluna “id” */
+.data-table {
+  th.mat-header-cell.mat-column-id,
+  td.mat-cell.mat-column-id {
+    width: 400px;
+    min-width: 400px;
+    max-width: 400px;
+    box-sizing: border-box;
+  }
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
