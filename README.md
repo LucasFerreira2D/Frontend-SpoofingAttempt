@@ -1,59 +1,69 @@
-# Frontend
+# Frontend – Sistema de Visualização de Tentativas de Spoofing Facial
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.0.
+Este repositório contém o Frontend desenvolvido em Angular, responsável pela visualização, filtragem e exportação das tentativas de spoofing facial registradas pelo Backend.
 
-## Development server
+---
 
-To start a local development server, run:
+📋 **Sumário**
+
+* [Funcionalidades](#-funcionalidades)
+* [Tecnologias](#-tecnologias)
+* [Pré-requisitos](#-pré-requisitos)
+* [Instalação](#️-instalação)
+
+---
+
+🚀 **Funcionalidades**
+
+* Exibição em tabela com paginação e ordenação das tentativas de spoofing facial.
+* Filtragem avançada por intervalo de datas.
+* Exportação dos dados filtrados para Excel (xlsx).
+* Interface responsiva com tema escuro.
+* 
+<img width="1871" height="569" alt="image" src="https://github.com/user-attachments/assets/3d3bb847-2e47-45e2-9850-0ef3d275565f" />
+
+* Visualização detalhada da imagem da tentativa com expansão ao clicar.
+
+<img width="1873" height="857" alt="image" src="https://github.com/user-attachments/assets/70958758-7797-440f-b4fb-221a5d10e344" />
+
+* Visualização do local da tentativa através de integração com Google Maps.
+
+<img width="1881" height="855" alt="image" src="https://github.com/user-attachments/assets/538087bd-9c1c-4d4f-bb8e-53ec799358f2" />
+
+---
+
+🛠 **Tecnologias**
+
+* Angular 17
+* Angular Material
+* TypeScript
+* RxJS
+* XLSX (SheetJS)
+* SCSS
+* Node.js
+* npm
+
+---
+
+📦 **Pré-requisitos**
+
+* [Node.js](https://nodejs.org/) (versão 16 ou superior)
+* npm (instalado automaticamente com Node.js)
+* IDE recomendada: [Visual Studio Code](https://code.visualstudio.com/)
+
+---
+
+⚙️ **Instalação**
+
+Clone este repositório:
 
 ```bash
-ng serve
+git clone https://github.com/seu-usuario/frontend-spoofing.git
+cd frontend-spoofing
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Instale as dependências:
 
 ```bash
-ng generate component component-name
+npm install
 ```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
