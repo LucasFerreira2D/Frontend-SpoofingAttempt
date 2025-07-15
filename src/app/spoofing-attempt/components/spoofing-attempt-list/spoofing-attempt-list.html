@@ -1,90 +1,101 @@
 <div class="dark-container">
 
-  <!-- Card de Filtros -->
-  <mat-card class="filter-card mb-4">
-    <mat-card-content>
-      <form [formGroup]="dateRange" class="filter-toolbar">
 
-        <!-- Filtro de Período -->
-        <mat-form-field appearance="outline" class="filter-item period-item">
-          <mat-label>Período</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate formControlName="start" placeholder="Data Inicial"/>
-            <input matEndDate formControlName="end" placeholder="Data Final"/>
-          </mat-date-range-input>
-          <mat-datepicker-toggle matSuffix [for]="picker">
-            <mat-icon>calendar_today</mat-icon>
-          </mat-datepicker-toggle>
-          <mat-date-range-picker
-            #picker
-            panelClass="custom-datepicker-panel">
-          </mat-date-range-picker>
-        </mat-form-field>
+  <div class="dashboard-container">
+    <!-- Coluna esquerda: dois cards empilhados -->
+    <div class="charts-container">
+      <mat-card class="bar-chart-card mat-elevation-z8 small-bar-chart-card">
+        <app-bar-chart [attempts]="dataSource.data"></app-bar-chart>
+      </mat-card>
+      <mat-card class="radar-chart-card mat-elevation-z8 small-radar-chart-card">
+        <app-radar-chart [attempts]="dataSource.data"></app-radar-chart>
+      </mat-card>
+    </div>
 
-        <div class="filter-actions">
-          <button mat-flat-button color="primary" (click)="exportExcel()">
-            <mat-icon>file_download</mat-icon>
-            Exportar Excel
-          </button>
-        </div>
+    <!-- Coluna direita: mapa -->
+    <mat-card class="map-card mat-elevation-z8 small-map-card">
+      <div class="map-wrapper">
+        <google-map
+          [center]="center"
+          [zoom]="4"
+          [options]="mapOptions"
+          [height]="'100%'"
+          [width]="'100%'">
 
-      </form>
-    </mat-card-content>
-  </mat-card>
-
-  <!-- Card da Tabela -->
-  <div class="table-wrapper">
-    <table mat-table [dataSource]="dataSource" matSort class="data-table mat-elevation-z8">
-
-      <!-- Coluna ID -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell class="text-left" *matHeaderCellDef mat-sort-header>ID</th>
-        <td mat-cell class="text-left" *matCellDef="let e">{{ e.id }}</td>
-      </ng-container>
-
-      <!-- Coluna Data/Hora -->
-      <ng-container matColumnDef="attemptDateHour">
-        <th mat-header-cell class="text-left" *matHeaderCellDef mat-sort-header>Data/Hora</th>
-        <td mat-cell class="text-left" *matCellDef="let e">
-          {{ e.attemptDateHour | date:'dd/MM/yyyy HH:mm' }}
-        </td>
-      </ng-container>
-
-      <!-- Coluna Mapa -->
-      <ng-container matColumnDef="map">
-        <th mat-header-cell class="text-center" *matHeaderCellDef>Mapa</th>
-        <td mat-cell class="text-center" *matCellDef="let e">
-          <button mat-icon-button color="primary" (click)="openMap(e.latitude, e.longitude)">
-            <mat-icon class="map-icon">map</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <!-- Coluna Imagem Spoofing -->
-      <ng-container matColumnDef="imageSpoofing">
-        <th mat-header-cell class="text-center" *matHeaderCellDef>Foto</th>
-        <td mat-cell class="text-center" *matCellDef="let e">
-          <img
-            class="spoofing-img"
-            [src]="'data:image/png;base64,' + e.imageSpoofing"
-            alt="Spoofing attempt"
-            (click)="openImage(e.imageSpoofing)"
-          />
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-    </table>
-
-    <mat-paginator
-      class="dark-paginator"
-      [length]="dataSource.data.length"
-      [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 20]"
-      showFirstLastButtons>
-    </mat-paginator>
+          @for (marker of markers; track marker.id) {
+            <map-marker
+              [position]="marker.position"
+              [title]="marker.title"
+              [options]="marker.options"
+              (mapClick)="highlightRow(marker.id)">
+            </map-marker>
+          }
+        </google-map>
+      </div>
+    </mat-card>
   </div>
 
+
+  <!-- Card Unificado: Filtro + Tabela -->
+  <mat-card class="filter-card unified-card mat-elevation-z8">
+    <mat-card-content>
+      <!-- Espaço entre filtros e tabela -->
+      <div class="divider"></div>
+
+      <!-- Tabela -->
+      <table mat-table [dataSource]="dataSource" matSort class="data-table">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell class="text-left" *matHeaderCellDef mat-sort-header>ID</th>
+          <td mat-cell class="text-left" *matCellDef="let e">{{ e.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="attemptDateHour">
+          <th mat-header-cell class="text-left" *matHeaderCellDef mat-sort-header>Data/Hora</th>
+          <td mat-cell class="text-left" *matCellDef="let e">
+            {{ e.attemptDateHour | date:'dd/MM/yyyy HH:mm' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="map">
+          <th mat-header-cell class="text-center" *matHeaderCellDef>Mapa</th>
+          <td mat-cell class="text-center" *matCellDef="let e">
+            <button mat-icon-button color="primary" (click)="openMap(e.latitude, e.longitude)">
+              <mat-icon class="map-icon">map</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="imageSpoofing">
+          <th mat-header-cell class="text-center" *matHeaderCellDef>Foto</th>
+          <td mat-cell class="text-center" *matCellDef="let e">
+            <img
+              class="spoofing-img"
+              [src]="'data:image/png;base64,' + e.imageSpoofing"
+              alt="Spoofing attempt"
+              (click)="openImage(e.imageSpoofing)"
+            />
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns;"
+          [id]="'row-' + row.id"
+          [ngClass]="{ 'highlighted-row': row.id === highlightedId }">
+        </tr>
+      </table>
+
+      <mat-paginator
+        class="dark-paginator"
+        [length]="dataSource.data.length"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons>
+      </mat-paginator>
+
+    </mat-card-content>
+  </mat-card>
 </div>
+
