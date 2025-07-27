@@ -1,19 +1,81 @@
 <div class="dark-container">
-
-
   <div class="dashboard-container">
-    <!-- Coluna esquerda: dois cards empilhados -->
-    <div class="charts-container">
-      <mat-card class="bar-chart-card mat-elevation-z8 small-bar-chart-card">
+
+    <!-- Coluna Esquerda: Gráficos + Tabela -->
+    <div class="left-column">
+      <!-- Gráfico de Barras -->
+      <mat-card class="bar-chart-card mat-elevation-z8">
         <app-bar-chart [attempts]="dataSource.data"></app-bar-chart>
       </mat-card>
-      <mat-card class="radar-chart-card mat-elevation-z8 small-radar-chart-card">
-        <app-radar-chart [attempts]="dataSource.data"></app-radar-chart>
+
+      <!-- Card Unificado: Filtros + Tabela -->
+      <mat-card class="unified-card mat-elevation-z8">
+        <mat-card-content>
+
+          <div class="divider"></div>
+
+          <table mat-table [dataSource]="dataSource" matSort class="data-table">
+            <!-- ID -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell class="text-left" *matHeaderCellDef mat-sort-header>ID</th>
+              <td mat-cell class="text-left" *matCellDef="let e">{{ e.id }}</td>
+            </ng-container>
+
+            <!-- Data/Hora -->
+            <ng-container matColumnDef="attemptDateHour">
+              <th mat-header-cell class="text-left" *matHeaderCellDef mat-sort-header>Data/Hora</th>
+              <td mat-cell class="text-left" *matCellDef="let e">
+                {{ e.attemptDateHour | date:'dd/MM/yyyy HH:mm' }}
+              </td>
+            </ng-container>
+
+            <!-- Mapa -->
+            <ng-container matColumnDef="map">
+              <th mat-header-cell class="text-center" *matHeaderCellDef>Mapa</th>
+              <td mat-cell class="text-center" *matCellDef="let e">
+                <button mat-icon-button color="primary" (click)="openMap(e.latitude, e.longitude)">
+                  <mat-icon class="map-icon">map</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <!-- Imagem -->
+            <ng-container matColumnDef="imageSpoofing">
+              <th mat-header-cell class="text-center" *matHeaderCellDef>Foto</th>
+              <td mat-cell class="text-center" *matCellDef="let e">
+                <img
+                  class="spoofing-img"
+                  [src]="'data:image/png;base64,' + e.imageSpoofing"
+                  alt="Spoofing attempt"
+                  (click)="openImage(e.imageSpoofing)"
+                />
+              </td>
+            </ng-container>
+
+            <!-- Linhas -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns;"
+              [id]="'row-' + row.id"
+              [ngClass]="{ 'highlighted-row': row.id === highlightedId }">
+            </tr>
+          </table>
+
+          <mat-paginator
+            class="dark-paginator"
+            [length]="dataSource.data.length"
+            [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons>
+          </mat-paginator>
+
+        </mat-card-content>
       </mat-card>
     </div>
 
-    <!-- Coluna direita: mapa -->
-    <mat-card class="map-card mat-elevation-z8 small-map-card">
+    <!-- Coluna Direita: Mapa -->
+    <mat-card class="map-card mat-elevation-z8">
       <div class="map-wrapper">
         <google-map
           [center]="center"
@@ -21,7 +83,6 @@
           [options]="mapOptions"
           [height]="'100%'"
           [width]="'100%'">
-
           @for (marker of markers; track marker.id) {
             <map-marker
               [position]="marker.position"
@@ -34,68 +95,4 @@
       </div>
     </mat-card>
   </div>
-
-
-  <!-- Card Unificado: Filtro + Tabela -->
-  <mat-card class="filter-card unified-card mat-elevation-z8">
-    <mat-card-content>
-      <!-- Espaço entre filtros e tabela -->
-      <div class="divider"></div>
-
-      <!-- Tabela -->
-      <table mat-table [dataSource]="dataSource" matSort class="data-table">
-
-        <ng-container matColumnDef="id">
-          <th mat-header-cell class="text-left" *matHeaderCellDef mat-sort-header>ID</th>
-          <td mat-cell class="text-left" *matCellDef="let e">{{ e.id }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="attemptDateHour">
-          <th mat-header-cell class="text-left" *matHeaderCellDef mat-sort-header>Data/Hora</th>
-          <td mat-cell class="text-left" *matCellDef="let e">
-            {{ e.attemptDateHour | date:'dd/MM/yyyy HH:mm' }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="map">
-          <th mat-header-cell class="text-center" *matHeaderCellDef>Mapa</th>
-          <td mat-cell class="text-center" *matCellDef="let e">
-            <button mat-icon-button color="primary" (click)="openMap(e.latitude, e.longitude)">
-              <mat-icon class="map-icon">map</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="imageSpoofing">
-          <th mat-header-cell class="text-center" *matHeaderCellDef>Foto</th>
-          <td mat-cell class="text-center" *matCellDef="let e">
-            <img
-              class="spoofing-img"
-              [src]="'data:image/png;base64,' + e.imageSpoofing"
-              alt="Spoofing attempt"
-              (click)="openImage(e.imageSpoofing)"
-            />
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr
-          mat-row
-          *matRowDef="let row; columns: displayedColumns;"
-          [id]="'row-' + row.id"
-          [ngClass]="{ 'highlighted-row': row.id === highlightedId }">
-        </tr>
-      </table>
-
-      <mat-paginator
-        class="dark-paginator"
-        [length]="dataSource.data.length"
-        [pageSize]="10"
-        [pageSizeOptions]="[5, 10, 20]"
-        showFirstLastButtons>
-      </mat-paginator>
-
-    </mat-card-content>
-  </mat-card>
 </div>
-
