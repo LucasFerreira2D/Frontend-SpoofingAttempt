@@ -24,8 +24,6 @@ import {BaseChartDirective, provideCharts, withDefaultRegisterables} from 'ng2-c
 import {BarChartComponent} from "./components/bar-chart/bar-chart";
 import {RadarChartComponent} from './components/radar-chart/radar-chart';
 
-
-
 @NgModule({
   declarations: [
     SpoofingAttemptList,
