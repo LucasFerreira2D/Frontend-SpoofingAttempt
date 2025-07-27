@@ -81,6 +81,26 @@ export class SpoofingAttemptList implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.loadData();
+
+    setInterval(() => {
+      this.loadData(); // ou this.loadData(true);
+    }, 10_000);
+
+    this.setupFilterPredicate();
+    this.registerFilterListeners();
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+
+  loadData(keepPaginator = true) {
+    const currentPageIndex = this.paginator?.pageIndex ?? 0;
+
     this.service.getAll().subscribe(data => {
       data.forEach(item => {
         item.attemptDateHour = new Date(item.attemptDateHour);
@@ -91,16 +111,15 @@ export class SpoofingAttemptList implements OnInit, AfterViewInit {
       );
 
       this.dataSource.data = data;
-      this.setupFilterPredicate();
-      this.registerFilterListeners();
       this.loadMarkers(data);
-    });
-  }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.dataSource.filter = new Date().getTime().toString();
+
+      // Mantém a página atual (evita sempre voltar pro início)
+      if (keepPaginator && this.paginator) {
+        this.paginator.pageIndex = currentPageIndex;
+        this.dataSource.paginator = this.paginator;
+      }
     });
   }
 
