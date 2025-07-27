@@ -23,8 +23,10 @@ Além disso, esta aplicação funciona em conjunto com o aplicativo Android dese
 * Visualização do local da tentativa através de integração com Google Maps.
 * Integração bidirecional com o aplicativo Android (Jetpack Compose) para sincronia de tentativas e resultados de detecção Spoofing.
 
-<img width="1880" height="907" alt="Dashboard Tema Escuro" src="https://github.com/user-attachments/assets/99627b94-d282-480d-9e51-a9ba842a27ea" />
-<img width="1887" height="806" alt="Expansão de Imagem" src="https://github.com/user-attachments/assets/b09473df-368e-408f-a5f7-b8c8f29cc9bd" />
+<img width="1899" height="917" alt="image" src="https://github.com/user-attachments/assets/1fb36acd-ede2-47e7-a6d1-4c6a62ec2e8e" />
+
+<img width="1891" height="923" alt="image" src="https://github.com/user-attachments/assets/675219ba-b991-45da-ac92-252f88528053" />
+
 
 ---
 
